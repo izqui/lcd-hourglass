@@ -53,6 +53,8 @@ unsigned short get_formatted_hour(unsigned short hour) {
 /* Check if we've reached the next update time */
 bool should_update(PblTm * t) {
   return first_update
+    || (t->tm_sec == 0 
+    && t->tm_min == 0)
     || (t->tm_sec >= next_update.tm_sec
     && t->tm_min >= next_update.tm_min
     && t->tm_hour >= next_update.tm_hour);
@@ -63,12 +65,6 @@ bool should_update(PblTm * t) {
  * occur at the corresponding time 
  */
 void set_next_update(int height, int hour) {
-
-  /* Rollover the hour if height param taller than screen height */
-  if(height != height % SCREEN_HEIGHT) {
-    next_update.tm_hour = (next_update.tm_hour + 1) % 24;
-    height = height % SCREEN_HEIGHT;
-  }
 
   float mins_f = 60.0 * ((height) / SCREEN_HEIGHT_F);
 
@@ -143,21 +139,20 @@ void display_time(PblTm * t, bool do_reset) {
 
   if(should_update(t)) {
 
-    if(t->tm_min == 59 && t->tm_sec == 59) {
-      animate_hour_change();
-    } else {
-
-      if(do_reset) {
-        reset_layers();
-      }
-
-      /* The meat of displaying the time */
-      display_hour(t->tm_hour);
-      int height = display_minute(t->tm_min, t->tm_sec);
-
-      set_next_update(height + 1, t->tm_hour);
+    if(do_reset) {
+      reset_layers();
     }
+
+    /* The meat of displaying the time */
+    display_hour(t->tm_hour);
+    int height = display_minute(t->tm_min, t->tm_sec);
+
+    set_next_update(height + 1, t->tm_hour);
   }
+
+  if(t->tm_min == 59 && t->tm_sec == 59) {
+      animate_hour_change();
+  } 
 }
 
 void handle_init(AppContextRef ctx) {
