@@ -3,7 +3,10 @@
  "versionDefName": "BIG_SQUARE_FONT_RESOURCES",
 
  "media": [
-	 {"type": "png",
+      {"type": "png",
+      "defName": "IMAGE_ICON",
+      "file": "images/icon.png"},
+	{"type": "png",
       "defName": "IMAGE_1",
       "file": "images/1.png"},
       {"type": "png",

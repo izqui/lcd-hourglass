@@ -5,9 +5,9 @@
 
 #define MY_UUID { 0x17, 0x86, 0x00, 0xB5, 0xDD, 0x2D, 0x45, 0xAA, 0x9B, 0x87, 0x82, 0x79, 0x3B, 0x0C, 0x8B, 0xE4 }
 PBL_APP_INFO(MY_UUID,
-             "Digital Hourglass ", "benmccanny.com",
+             "LCD Hourglass", "benmccanny.com",
              0, 1, /* App version */
-             DEFAULT_MENU_ICON,
+             RESOURCE_ID_IMAGE_ICON,
              APP_INFO_WATCH_FACE);
 
 #define SCREEN_HEIGHT   168
