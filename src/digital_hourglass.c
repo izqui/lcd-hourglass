@@ -99,6 +99,10 @@ void animate_minute_init(int height) {
 void animate_hour_change() {
   to_2 = GRect(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+  GRect frame = layer_get_frame((Layer *)&minute_layer);
+  frame.size.h = SCREEN_HEIGHT;
+  layer_set_frame((Layer *)&minute_layer, frame);
+
   property_animation_init_layer_frame (&animation_2,
       (Layer *)&minute_layer,
       NULL,
@@ -106,6 +110,7 @@ void animate_hour_change() {
     );
 
   animation_set_duration(&animation_2.animation, 500);
+  animation_set_delay(&animation_2.animation, 500);
   animation_schedule(&animation_2.animation);
 }
 
@@ -138,7 +143,7 @@ void display_time(PblTm * t, bool do_reset) {
 
   if(should_update(t)) {
 
-    if(t->tm_min == 0 && t->tm_sec == 0) {
+    if(t->tm_min == 59 && t->tm_sec == 59) {
       animate_hour_change();
     } else {
 
